@@ -1,0 +1,36 @@
+rules_version = '2';
+// KVD Windpark snagging. Edit ADMIN_EMAILS to match js/config.js.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function adminEmail() {
+      return signedIn() && request.auth.token.email_verified == true
+        && request.auth.token.email.lower() in ['ab@bbarch.net'];
+    }
+    function membersDoc() { return /databases/$(database)/documents/config/members; }
+    function role() {
+      return exists(membersDoc())
+        ? get(membersDoc()).data.get('m', {}).get(request.auth.uid, {}).get('role', '')
+        : '';
+    }
+    function isAdmin() { return adminEmail() || (signedIn() && role() == 'admin'); }
+    function isMember() { return isAdmin() || (signedIn() && role() in ['qc', 'team', 'crm']); }
+
+    // Roles list: any signed-in person may read it (so the waiting screen opens once approved).
+    match /config/members { allow read: if signedIn(); allow write: if isAdmin(); }
+    // Project setup: members read, admins write.
+    match /config/{docId} { allow read: if isMember(); allow write: if isAdmin(); }
+    // Each person writes only their own profile; members can read names.
+    match /people/{uid} {
+      allow read: if isMember() || (signedIn() && request.auth.uid == uid);
+      allow write: if signedIn() && request.auth.uid == uid;
+    }
+    // Flats, per-tower summaries and photos: approved members only.
+    match /units/{id} { allow read, write: if isMember(); }
+    match /sum/{id} { allow read, write: if isMember(); }
+    match /photos/{id} {
+      allow read, create: if isMember();
+      allow update, delete: if isAdmin();
+    }
+  }
+}

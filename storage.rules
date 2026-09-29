@@ -1,0 +1,18 @@
+rules_version = '2';
+// Only needed when APP.useStorage is true (Blaze plan). Edit ADMIN_EMAILS to match js/config.js.
+service firebase.storage {
+  match /b/{bucket}/o {
+    function member() {
+      return request.auth != null && (
+        (request.auth.token.email_verified == true && request.auth.token.email.lower() in ['ab@bbarch.net'])
+        || firestore.get(/databases/(default)/documents/config/members).data.get('m', {})
+             .get(request.auth.uid, {}).get('role', '') in ['admin', 'qc', 'team', 'crm']);
+    }
+    match /photos/{uid}/{file} {
+      allow read: if member();
+      allow create: if member() && request.auth.uid == uid
+        && request.resource.size < 8 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
