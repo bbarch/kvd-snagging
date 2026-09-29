@@ -58,7 +58,7 @@ const S = {
 function defaultConfig() {
   return {
     name: "KVD Windpark",
-    towers: [1, 2, 3, 4, 5].map(n => ({ id: "T" + n, name: "Tower " + n, floors: 24, start: 1, flats: 4, types: ["3BHK", "2BHK", "2BHK", "3BHK"] })),
+    towers: [1, 2, 3, 6, 7].map(n => ({ id: "T" + n, name: "Tower " + n, floors: 24, start: 1, flats: 4, types: ["3BHK", "2BHK", "2BHK", "3BHK"] })),
     list: null,
     teams: CL.teams,
     flatTypes: CL.flatTypes,
@@ -273,7 +273,7 @@ function bannerHTML() {
   if (S.booting) return "";
   if (!S.db) return `<div class="banner warn">Shared project data isn't available in this view. Open the page on claude.ai while signed in; entries can't be saved until then.</div>`;
   if (S.configLoaded && !S.config) return can.setup()
-    ? `<div class="banner">The project isn't set up yet. The towers below are a draft (5 towers × 24 floors × 4 flats). <button class="btn sm primary" onclick="go('setup')">Open setup</button></div>`
+    ? `<div class="banner">The project isn't set up yet. The towers below are a draft (Phase 1: towers 1, 2, 3, 6 and 7, 24 floors × 4 flats). <button class="btn sm primary" onclick="go('setup')">Open setup</button></div>`
     : `<div class="banner">The project admin hasn't finished setup yet. You can look around, but flats may change.</div>`;
   return "";
 }
@@ -836,7 +836,7 @@ function viewSetup() {
 function previewCount(c) { if (c.list && c.list.length) return c.list.length; return c.towers.reduce((a, t) => a + t.floors * t.flats, 0); }
 function dirty(rerender) { S.setupDirty = true; const m = $("#set-msg"); if (m) m.textContent = "Unsaved changes"; if (rerender) { const y = window.scrollY; render(); window.scrollTo(0, y); } }
 function twSet(i, k, v) { S.sd.towers[i][k] = v; dirty(true); }
-function twAdd() { const n = S.sd.towers.length + 1; S.sd.towers.push({ id: "T" + n, name: "Tower " + n, floors: 24, start: 1, flats: 4, types: ["3BHK", "2BHK", "2BHK", "3BHK"] }); dirty(true); }
+function twAdd() { const n = Math.max(0, ...S.sd.towers.map(t => parseInt(String(t.id).replace(/\D/g, ""), 10) || 0)) + 1; S.sd.towers.push({ id: "T" + n, name: "Tower " + n, floors: 24, start: 1, flats: 4, types: ["3BHK", "2BHK", "2BHK", "3BHK"] }); dirty(true); }
 function twDel(i) { S.sd.towers.splice(i, 1); dirty(true); }
 function parseTeams(txt) {
   const t = txt.split("\n").map(l => l.split("|").map(s => s.trim())).filter(a => a[0]).map(a => ({ id: a[0].toLowerCase().replace(/[^a-z0-9_-]/g, ""), name: a[1] || a[0] }));

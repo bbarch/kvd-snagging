@@ -50,7 +50,7 @@ def title(ws, text, sub):
 # ---- README
 ws = wb.active
 ws.title = "Read me"
-title(ws, "KVD Windpark: flat snagging checklist", "RCC framed towers, plaster and paint, aluminium / uPVC windows, wooden internal doors. 5 towers x 24 floors, 2BHK and 3BHK.")
+title(ws, "KVD Windpark: flat snagging checklist", "RCC framed towers, plaster and paint, aluminium / uPVC windows, wooden internal doors. Phase 1: towers T1, T2, T3, T6, T7 (T4, T5 are Phase 2). 24 floors, 2BHK and 3BHK.")
 lines = [
     ("Checklist", "Every check item. One row per item, grouped by building element (ceiling, walls, floor, doors, windows, services). ID is what the app stores."),
     ("Rooms by flat type", "Which rooms each flat type has and which element groups apply to each room. Check counts are live formulas."),

@@ -1,6 +1,6 @@
 # KVD Windpark snagging
 
-A web app for flat-by-flat snagging and handover at KVD Windpark. It covers 5 towers of RCC-framed 2BHK and 3BHK flats.
+A web app for flat-by-flat snagging and handover at KVD Windpark. Phase 1 covers towers T1, T2, T3, T6 and T7 (RCC-framed 2BHK and 3BHK flats, 24 floors). T4 and T5 are Phase 2 and can be added later in Setup.
 
 QC works through a room-by-room checklist on a phone and marks each item OK, N/A or Snag. Every snag is assigned to a team. The team marks it fixed with a photo and QC verifies and closes it. A flat can only be handed over once its inspection is complete and no critical or major snag is open. The handover screen records meter readings, keys, documents, the customer walkthrough and both signatures.
 
