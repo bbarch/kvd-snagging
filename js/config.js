@@ -1,12 +1,12 @@
 // 1. Paste the config from Firebase console > Project settings > Your apps > Web app.
 //    These values are not secret; access is controlled by firestore.rules.
 export const FIREBASE_CONFIG = {
-  apiKey: "PASTE_API_KEY",
-  authDomain: "PASTE_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_PROJECT_ID",
-  storageBucket: "PASTE_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_SENDER_ID",
-  appId: "PASTE_APP_ID",
+  apiKey: "AIzaSyAC6q8mYy0MRRn07U9HaCw3wIr5Ims0eAY",
+  authDomain: "kvd-snagging-ab-28586-4a333.firebaseapp.com",
+  projectId: "kvd-snagging-ab-28586-4a333",
+  storageBucket: "kvd-snagging-ab-28586-4a333.firebasestorage.app",
+  messagingSenderId: "514303187965",
+  appId: "1:514303187965:web:c95f6c8425cf4f81c19794",
 };
 
 export const APP = {
